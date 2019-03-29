@@ -1,0 +1,13 @@
+OE_GUI viene fatto partire al boot tramite systemctl.
+
+1) copiare file oe_gui.service in /etc/systemd/system/
+	(operazione eseguita dallo script install_chroot.sh)
+
+
+2) systemctl enable oe_gui 
+	(operazione eseguita dallo script script_config.sh)
+
+Altre funzioni:
+systemctl daemon-reload
+systemctl start oe_gui
+systemctl status oe_gui
