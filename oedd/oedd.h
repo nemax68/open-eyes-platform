@@ -1,6 +1,6 @@
 /**
  * @file oe_gui.h
- * 
+ *
  */
 
 #ifndef OE_GUI_H
@@ -8,7 +8,7 @@
 
 #include <syslog.h>
 
-#define OEGUILOG_NAME	"oe_gui"
+#define OEGUILOG_NAME	"oedd"
 
 /*----------------
  * Dynamic memory
@@ -35,7 +35,7 @@
  *==================*/
 
 /*==================
- *  LV OBJ X USAGE 
+ *  LV OBJ X USAGE
  *================*/
 
 /*****************

@@ -104,14 +104,15 @@ const lv_img_t img_screen = {
  *   GLOBAL FUNCTIONS
  **********************/
 
-extern int32_t Read_bmp2memory ( char const *file_name, uint8_t *picture_pointer  );
-
+extern int32_t Read_bmp2memory ( char const *file_name, uint16_t *picture_pointer  );
+extern void GuiLog(const char *fmt, ...);
 /**
  * Create some objects
  */
 void openeyes_gui(void)
 {
 	int i;
+  int err=0;
 
 	for(i=0;i<MAX_BUTTON;i++){
 		button[i]=NULL;
@@ -128,9 +129,10 @@ void openeyes_gui(void)
 
 	refr_task = NULL;
 
-	if(Read_bmp2memory ( "/usr/local/share/images/img.bmp", (uint8_t *)&img_pattern_pixel_map[LV_HOR_RES*LV_VER_RES] )!=0){
-		GuiLog("Failed to load /usr/local/share/images/img.bmp");
+  err=Read_bmp2memory ( "/usr/share/oedd/img/logo.bmp", &img_pattern_pixel_map[LV_HOR_RES*LV_VER_RES] );
 
+	if(err!=0){
+		GuiLog("Failed to load bitmap error=%d",err);
 	}
 
 

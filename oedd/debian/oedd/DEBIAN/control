@@ -1,0 +1,11 @@
+Package: oedd
+Version: 0.0.1
+Architecture: armhf
+Maintainer: root <massimiliano.negretti@gmail.com>
+Installed-Size: 653
+Depends: libc6 (>= 2.4), init-system-helpers (>= 1.18~)
+Section: unknown
+Priority: optional
+Homepage: <insert the upstream URL, if relevant>
+Description: OPEN-EYES display daemon
+ <insert long description, indented with spaces>

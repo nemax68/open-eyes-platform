@@ -1,0 +1,6 @@
+a231983611df51975854a07dd3d049a0  lib/systemd/system/oedd.service
+565a852041edb0e1544244cf5a73f63f  usr/bin/oedd
+ea684665e305361c0bd77753642824d0  usr/share/doc/oedd/README.Debian
+4131380bc1e594c0d5311384d48ab247  usr/share/doc/oedd/changelog.gz
+0e27e44aa1d11e345a6a2c7ce483ecee  usr/share/doc/oedd/copyright
+d91b3d0102e40415f390f8baee8c12e7  usr/share/oedd/img/logo.bmp

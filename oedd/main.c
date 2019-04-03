@@ -15,7 +15,7 @@
 #include <fcntl.h>
 #include <string.h>
 #include <unistd.h>
-#include <oe_gui.h>
+#include <oedd.h>
 #include <stdarg.h>
 #include <time.h>   // for nanosleep
 
@@ -144,5 +144,3 @@ int main(void)
 
     return 0;
 }
-
-

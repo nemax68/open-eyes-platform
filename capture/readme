@@ -1,0 +1,14 @@
+
+CREAZIONE PACKAGE CAPTURE
+--------------------------------------
+
+dh_make --native --single --packagename capture_0.0.1 --email massimiliano.negretti@gmail.com
+
+#add file debian(install
+
+#add in file debian/rules
+override_dh_shlibdeps:
+    dh_shlibdeps --dpkg-shlibdeps-params=--ignore-missing-info
+
+dpkg-buildpackage -us -uc --host-arch armhf
+

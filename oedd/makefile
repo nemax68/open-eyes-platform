@@ -5,10 +5,11 @@ CC = arm-linux-gnueabihf-gcc
 CFLAGS = -Wall -Wshadow -Wmaybe-uninitialized
 CFLAGS += -O3 -g3 -I./
 #LDFLAGS += -lSDL2 -lm
-BIN = oe_gui
-VPATH = 
+BIN = bin/oedd
+VPATH =
 LIBS = -lrt
 OBJDIR = obj
+TARGET = 10.1.1.78
 
 LVGL_DIR = ${shell pwd}
 
@@ -61,9 +62,12 @@ all: default
 %.o: %.c
 	@$(CC)  $(CFLAGS) -c $< -o $@
 	@echo "CC $<"
-    
+
 default: $(AOBJS) $(COBJS) $(MAINOBJ)
 	$(CC) -o $(BIN) $(MAINOBJ) $(AOBJS) $(COBJS) $(LDFLAGS) $(LIBS)
 
-clean: 
+clean:
 	rm -f $(BIN) $(AOBJS) $(COBJS) $(MAINOBJ)
+
+target:
+	scp $(BIN) root@$(TARGET):/usr/bin

@@ -105,7 +105,7 @@ int32_t Read_bmp2memory ( char const *file_name, uint16_t *picture_pointer  )
 	if( bfType != 0x4D42)
 	{
 		fclose( my_file );
-		return( -1 );
+		return( -2 );
 	}
 
 
@@ -128,10 +128,10 @@ int32_t Read_bmp2memory ( char const *file_name, uint16_t *picture_pointer  )
 	biBitCount = bmp_header_buffer[29];
 	biBitCount = (biBitCount << 8) | bmp_header_buffer[28];
 
-    if( (biWidth != LV_HOR_RES) || (biHeight != LV_VER_RES) || (biBitCount != 24) )
+  if( (biWidth != LV_HOR_RES) || (biHeight != LV_VER_RES) || (biBitCount != 24) )
 	{
 		fclose( my_file );
-        return( -1 );
+    return( -3 );
 	}
 
 	bfOffBits = bmp_header_buffer[13];

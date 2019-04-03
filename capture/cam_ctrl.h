@@ -1,0 +1,11 @@
+extern int set_jpeg_quality(int fd, int quality);
+extern int set_frame_rate(int fd, int rate);
+extern int get_frame_rate(int fd);
+extern int zoom_absolute(int fd, int zoom);
+extern int zoom_relative(int fd, int zoom);
+extern int pan_relative(int fd, int pan);
+extern int pan_absolute(int fd, int pan);
+extern int tilt_relative(int fd, int tilt);
+extern int tilt_absolute(int fd, int tilt);
+extern int get_io_control(int fd, int control, int *value);
+extern int set_io_control(int fd, int control, int value);
