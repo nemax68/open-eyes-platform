@@ -17,10 +17,11 @@
 #include <string.h>
 #include <getopt.h>
 #include <fcntl.h>
+#include <errno.h>
 #include <linux/ioctl.h>
 #include <linux/types.h>
-#include <include/spi/spidev.h>
 #include <sys/ioctl.h>
+#include "spidev.h"
 
 /**********************
  *  STATIC VARIABLES
@@ -32,6 +33,7 @@ static int spi_id;
 
 struct spi_ioc_transfer xfer[2];
 
+#define SPI_ITF_SPEED 20000000
 
 //////////
 // Init SPIdev
@@ -39,39 +41,26 @@ struct spi_ioc_transfer xfer[2];
 int spi_open(char *dev)
 {
 	int fd;
-    uint8_t    mode, lsb, bits;
-    uint32_t speed=2500000;
+    uint8_t    	mode, lsb, bits;
+    uint32_t 	speed=SPI_ITF_SPEED;
 
 	strcpy(spi_file,dev);
 	spi_initialized=0;
 
 	if ((fd = open(spi_file,O_RDWR)) < 0)
-	{
-		//perror("Failed to open the bus\n");
-		/* ERROR HANDLING; you can check errno to see what went wrong */
-		return -1;
-	}
+		return ENOENT;
 
 	if (ioctl(fd, SPI_IOC_RD_MODE, &mode) < 0)
-	{
-		//perror("SPI rd_mode");
-		return -1;
-	}
+		return EACCES;
+
 	if (ioctl(fd, SPI_IOC_RD_LSB_FIRST, &lsb) < 0)
-	{
-		//perror("SPI rd_lsb_fist");
-		return -1;
-	}
+		return EAGAIN;
+
 	if (ioctl(fd, SPI_IOC_RD_BITS_PER_WORD, &bits) < 0)
-	{
-		//perror("SPI bits_per_word");
-		return -1;
-	}
+		return EAGAIN;
+
 	if (ioctl(fd, SPI_IOC_RD_MAX_SPEED_HZ, &speed) < 0)
-	{
-		//perror("SPI max_speed_hz");
-		return -1;
-	}
+		return EAGAIN;
 
 	spi_id=fd;
 
@@ -80,14 +69,14 @@ int spi_open(char *dev)
     xfer[0].len = 3; /* Length of  command to write*/
     xfer[0].cs_change = 0; /* Keep CS activated */
     xfer[0].delay_usecs = 0, //delay in us
-    xfer[0].speed_hz = 25000000, //speed
+    xfer[0].speed_hz = SPI_ITF_SPEED, //speed
     xfer[0].bits_per_word = 8, // bites per word 8
 
     //xfer[1].rx_buf = (unsigned long) buf2;
     xfer[1].len = 4; /* Length of Data to read */
     xfer[1].cs_change = 0; /* Keep CS activated */
     xfer[0].delay_usecs = 0;
-    xfer[0].speed_hz = 25000000;
+    xfer[0].speed_hz = SPI_ITF_SPEED;
     xfer[0].bits_per_word = 8;
 
     spi_initialized=1;

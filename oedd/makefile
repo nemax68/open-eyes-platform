@@ -7,37 +7,24 @@ CFLAGS += -O3 -g3 -I./
 #LDFLAGS += -lSDL2 -lm
 BIN = bin/oedd
 VPATH =
-LIBS = -lrt
+LIBS = -lrt -ljson-c
 OBJDIR = obj
 TARGET = 10.1.1.78
+DEFINES=
 
 LVGL_DIR = ${shell pwd}
 
 MAINSRC = main.c
 
 #LIBRARIES
-include ./lvgl/lv_core/lv_core.mk
-include ./lvgl/lv_hal/lv_hal.mk
-include ./lvgl/lv_objx/lv_objx.mk
-include ./lvgl/lv_misc/lv_fonts/lv_fonts.mk
-include ./lvgl/lv_misc/lv_misc.mk
-include ./lvgl/lv_themes/lv_themes.mk
-include ./lvgl/lv_draw/lv_draw.mk
+include $(LVGL_DIR)/lvgl/lvgl.mk
 
 #DRIVERS
 include ./lv_drivers/display/display.mk
 include ./lv_drivers/indev/indev.mk
 include ./lv_drivers/itf/itf.mk
 
-
-#EXAMPLES
-include ./lv_examples/lv_apps/demo/demo.mk
-include ./lv_examples/lv_apps/tpcal/tpcal.mk
-include ./lv_examples/lv_tutorial/1_hello_world/lv_tutorial_hello_world.mk
-include ./lv_examples/lv_tutorial/2_objects/lv_tutorial_objects.mk
-include ./lv_examples/lv_tests/lv_test_obj/lv_test_obj.mk
-
-include ./openeyes/openeyes.mk
+include ./oegl_app/oegl_app.mk
 
 OBJEXT ?= .o
 
@@ -64,7 +51,7 @@ all: default
 	@echo "CC $<"
 
 default: $(AOBJS) $(COBJS) $(MAINOBJ)
-	$(CC) -o $(BIN) $(MAINOBJ) $(AOBJS) $(COBJS) $(LDFLAGS) $(LIBS)
+	$(CC) -o $(BIN) $(MAINOBJ) $(AOBJS) $(COBJS) $(DEFINES) $(LDFLAGS) $(LIBS)
 
 clean:
 	rm -f $(BIN) $(AOBJS) $(COBJS) $(MAINOBJ)

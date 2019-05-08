@@ -55,20 +55,25 @@ bool keyboard_read(lv_indev_data_t * data)
     data->state = state;
     data->key = keycode_to_ascii(last_key);
 
-    return false;
+    /* Tell there is more data when pressed. The next data will the releases state. */
+    state = LV_INDEV_STATE_REL;
+    return data->state == LV_INDEV_STATE_PR ? true : false;
 }
 
-
-void keyboard_handler(SDL_Event *event)
+/**
+ * It is called periodically from the SDL thread to check a key is pressed/released
+ * @param event describes the event
+ */
+void keyboard_handler(SDL_Event * event)
 {
-    /* We are only worried about SDL_KEYDOWN and SDL_KEYUP events */
-    switch( event->type ){
-        case SDL_KEYDOWN:
-            last_key = event->key.keysym.sym;
-            state = LV_INDEV_STATE_PR;
+    /* We only care about SDL_KEYDOWN and SDL_KEYUP events */
+    switch(event->type) {
+        case SDL_KEYDOWN:                       /*Button press*/
+            last_key = event->key.keysym.sym;   /*Save the pressed key*/
+            state = LV_INDEV_STATE_PR;          /*Save the key is pressed now*/
             break;
-        case SDL_KEYUP:
-            state = LV_INDEV_STATE_REL;
+        case SDL_KEYUP:                         /*Button release*/
+            state = LV_INDEV_STATE_REL;         /*Save the key is released but keep the last key*/
             break;
         default:
             break;
@@ -80,6 +85,11 @@ void keyboard_handler(SDL_Event *event)
  *   STATIC FUNCTIONS
  **********************/
 
+/**
+ * Convert the key code LV_GROUP_KEY_... "codes" or leave them if they are not control characters
+ * @param sdl_key the key code
+ * @return
+ */
 static uint32_t keycode_to_ascii(uint32_t sdl_key)
 {
     /*Remap some key to LV_GROUP_KEY_... to manage groups*/
@@ -101,13 +111,21 @@ static uint32_t keycode_to_ascii(uint32_t sdl_key)
         case SDLK_ESCAPE:
             return LV_GROUP_KEY_ESC;
 
-        case SDLK_KP_ENTER:
-            return LV_GROUP_KEY_ENTER;
+#ifdef  LV_GROUP_KEY_BACKSPACE        /*For backward compatibility*/
+        case SDLK_BACKSPACE:
+            return LV_GROUP_KEY_BACKSPACE;
+#endif
 
+#ifdef  LV_GROUP_KEY_DEL        /*For backward compatibility*/
+        case SDLK_DELETE:
+            return LV_GROUP_KEY_DEL;
+#endif
+        case SDLK_KP_ENTER:
         case '\r':
             return LV_GROUP_KEY_ENTER;
 
-        default: return sdl_key;
+        default:
+            return sdl_key;
     }
 }
 #endif

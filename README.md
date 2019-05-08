@@ -12,6 +12,16 @@ CAPTURE
 
 Utility that test the image sensor and stream over IP.
 
+OESIP
+-----
+
+Voip sip client derived from baresip
+
+
+
+
+
+
 reference:
 
 http://guide.debianizzati.org/index.php/Creare_un_Repository_Debian

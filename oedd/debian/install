@@ -1,2 +1,2 @@
 bin/* usr/bin
-include/img/* usr/share/oedd/img
+oegl_app/img/* usr/share/oedd/img

@@ -13,10 +13,14 @@ extern "C" {
 /*********************
  *      INCLUDES
  *********************/
-
+#ifdef LV_CONF_INCLUDE_SIMPLE
 #include "lv_drv_conf.h"
+#else
+#include "../../lv_drv_conf.h"
+#endif
 
 #if USE_EVDEV
+
 #include <stdint.h>
 #include <stdbool.h>
 #include "lvgl/lv_hal/lv_hal_indev.h"
@@ -37,6 +41,13 @@ extern "C" {
  * Initialize the evdev
  */
 void evdev_init(void);
+/**
+ * reconfigure the device file for evdev
+ * @param dev_name set the evdev device filename
+ * @return true: the device file set complete
+ *         false: the device file doesn't exist current system
+ */
+bool evdev_set_file(char* dev_name);
 /**
  * Get the current position and state of the evdev
  * @param data store the evdev data here

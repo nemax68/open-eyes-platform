@@ -1,6 +1,6 @@
 /**
  * @file lv_bar.h
- * 
+ *
  */
 
 #ifndef LV_BAR_H
@@ -13,7 +13,12 @@ extern "C" {
 /*********************
  *      INCLUDES
  *********************/
+#ifdef LV_CONF_INCLUDE_SIMPLE
+#include "lv_conf.h"
+#else
 #include "../../lv_conf.h"
+#endif
+
 #if USE_LV_BAR != 0
 
 #include "../lv_core/lv_obj.h"
@@ -37,13 +42,15 @@ typedef struct
     int16_t cur_value;              /*Current value of the bar*/
     int16_t min_value;              /*Minimum value of the bar*/
     int16_t max_value;              /*Maximum value of the bar*/
+    uint8_t sym    :1;              /*Symmetric: means the center is around zero value*/
     lv_style_t *style_indic;        /*Style of the indicator*/
-}lv_bar_ext_t;
+} lv_bar_ext_t;
 
-typedef enum {
+enum {
     LV_BAR_STYLE_BG,
     LV_BAR_STYLE_INDIC,
-}lv_bar_style_t;
+};
+typedef uint8_t lv_bar_style_t;
 
 /**********************
  * GLOBAL PROTOTYPES
@@ -55,7 +62,7 @@ typedef enum {
  * @param copy pointer to a bar object, if not NULL then the new object will be copied from it
  * @return pointer to the created bar
  */
-lv_obj_t * lv_bar_create(lv_obj_t * par, lv_obj_t * copy);
+lv_obj_t * lv_bar_create(lv_obj_t * par, const lv_obj_t * copy);
 
 /*=====================
  * Setter functions
@@ -86,6 +93,13 @@ void lv_bar_set_value_anim(lv_obj_t * bar, int16_t value, uint16_t anim_time);
 void lv_bar_set_range(lv_obj_t * bar, int16_t min, int16_t max);
 
 /**
+ * Make the bar symmetric to zero. The indicator will grow from zero instead of the minimum position.
+ * @param bar pointer to a bar object
+ * @param en true: enable disable symmetric behavior; false: disable
+ */
+void lv_bar_set_sym(lv_obj_t * bar, bool en);
+
+/**
  * Set a style of a bar
  * @param bar pointer to a bar object
  * @param type which style should be set
@@ -102,22 +116,28 @@ void lv_bar_set_style(lv_obj_t *bar, lv_bar_style_t type, lv_style_t *style);
  * @param bar pointer to a bar object
  * @return the value of the bar
  */
-int16_t lv_bar_get_value(lv_obj_t * bar);
+int16_t lv_bar_get_value(const lv_obj_t * bar);
 
 /**
  * Get the minimum value of a bar
  * @param bar pointer to a bar object
  * @return the minimum value of the bar
  */
-int16_t lv_bar_get_min_value(lv_obj_t * bar);
+int16_t lv_bar_get_min_value(const lv_obj_t * bar);
 
 /**
  * Get the maximum value of a bar
  * @param bar pointer to a bar object
  * @return the maximum value of the bar
  */
-int16_t lv_bar_get_max_value(lv_obj_t * bar);
+int16_t lv_bar_get_max_value(const lv_obj_t * bar);
 
+/**
+ * Get whether the bar is symmetric or not.
+ * @param bar pointer to a bar object
+ * @return true: symmetric is enabled; false: disable
+ */
+bool lv_bar_get_sym(lv_obj_t * bar);
 
 /**
  * Get a style of a bar
@@ -125,7 +145,7 @@ int16_t lv_bar_get_max_value(lv_obj_t * bar);
  * @param type which style should be get
  * @return style pointer to a style
  */
-lv_style_t * lv_bar_get_style(lv_obj_t *bar, lv_bar_style_t type);
+lv_style_t * lv_bar_get_style(const lv_obj_t *bar, lv_bar_style_t type);
 
 /**********************
  *      MACROS

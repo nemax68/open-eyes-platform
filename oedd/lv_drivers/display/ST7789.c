@@ -1,6 +1,6 @@
 /**
  * @file ST7789.c
- * 
+ *
  */
 
 /*********************
@@ -361,9 +361,9 @@ void st7789_flush(int32_t x1, int32_t y1, int32_t x2, int32_t y2, const lv_color
 
   	for(i = 0; i < size; i++,color_p++) {
 		color16=color_p->full;
-		lcd_fb[i]=(color16>>8)&0x00FF;
-		lcd_fb[i]=lcd_fb[i] | ((color16<<8)&0xFF00);
-		//lcd_fb[i]=color16;
+		//lcd_fb[i]=(color16>>8)&0x00FF;
+		//lcd_fb[i]=lcd_fb[i] | ((color16<<8)&0xFF00);
+		lcd_fb[i]=color16;
 	}
 
     st7789_command( ST7735_RAMWR );
@@ -388,7 +388,7 @@ void st7789_fill(int32_t x1, int32_t y1, int32_t x2, int32_t y2, lv_color_t colo
     int32_t act_y1 = y1 < 0 ? 0 : y1;
     int32_t act_x2 = x2 > ST7789_HOR_RES - 1 ? ST7789_HOR_RES - 1 : x2;
     int32_t act_y2 = y2 > ST7789_VER_RES - 1 ? ST7789_VER_RES - 1 : y2;
-    
+
     int32_t x, y;
     uint8_t white = lv_color_to1(color);
 
@@ -402,7 +402,7 @@ void st7789_fill(int32_t x1, int32_t y1, int32_t x2, int32_t y2, lv_color_t colo
             }
         }
     }
-    
+
     st7789_sync(act_x1, act_y1, act_x2, act_y2);
 }
 
@@ -419,7 +419,7 @@ void st7789_map(int32_t x1, int32_t y1, int32_t x2, int32_t y2, lv_color_t * col
     int32_t act_y1 = y1 < 0 ? 0 : y1;
     int32_t act_x2 = x2 > ST7789_HOR_RES - 1 ? ST7789_HOR_RES - 1 : x2;
     int32_t act_y2 = y2 > ST7789_VER_RES - 1 ? ST7789_VER_RES - 1 : y2;
-    
+
     int32_t x, y;
 
 
@@ -437,7 +437,7 @@ void st7789_map(int32_t x1, int32_t y1, int32_t x2, int32_t y2, lv_color_t * col
      ssd1963_data(0x00FF & act_y2);
 
     /*Set the first row in */
-    
+
     /*Refresh frame buffer*/
     for(y= act_y1; y <= act_y2; y++) {
         for(x = act_x1; x <= act_x2; x++) {
@@ -448,10 +448,10 @@ void st7789_map(int32_t x1, int32_t y1, int32_t x2, int32_t y2, lv_color_t * col
             }
             color_p ++;
         }
-        
+
         color_p += x2 - act_x2; /*Next row*/
     }
-    
+
     st7789_sync(act_x1, act_y1, act_x2, act_y2);
 }
 
