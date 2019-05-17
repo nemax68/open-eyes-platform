@@ -1,0 +1,3 @@
+[submodule "oedd"]
+	path = oedd
+	url = https://github.com/nemax68/oedd.git
